@@ -36,6 +36,12 @@ public class Transakcija {
 
 	public Transakcija(){};
 
+	public Transakcija(LocalDate date, Integer suma)
+	{
+		this.date=date;
+		this.suma=suma;
+	}
+	
 	public Transakcija(String dan, String mesec,String godina, Integer suma) throws IOException {
 		super();
 		
@@ -85,18 +91,30 @@ public class Transakcija {
 	
 	public void Log(Uplata u) throws IOException
 	{
-		/*FileWriter fwU=new FileWriter("Uplate.txt",true);
+		FileWriter fwU=new FileWriter("Uplate.txt",true);
 		
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy.");
 		String formattedString = u.getDate().format(formatter);
 		fwU.write(u.getSuma()+" "+formattedString+"\n");
-	    fwU.close();*/
-		
-		FileWriter fwU=new FileWriter("Uplate.txt",true);
-		fwU.write(u.toString()+"\n");
 	    fwU.close();
+		
+		
 	}
 	
+	public Boolean CheckMonth(LocalDate d)
+	{
+		if(
+		Integer.parseInt(d.format(DateTimeFormatter.ofPattern("MM")))==
+		Integer.parseInt(LocalDate.now().format(DateTimeFormatter.ofPattern("MM"))))
+		{
+			return true;
+		}
+		else
+		{
+		return false;
+		}
+		
+	}
 	
 
 

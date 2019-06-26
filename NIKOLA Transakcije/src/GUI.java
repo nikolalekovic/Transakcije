@@ -1,10 +1,7 @@
 import java.awt.Color;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 import beans.Isplata;
 import beans.Transakcija;
@@ -27,6 +24,10 @@ import javax.swing.JScrollPane;
 
 public class GUI extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField textFieldSuma;
 	private JTextField textFieldDan;
@@ -128,6 +129,9 @@ public class GUI extends JFrame {
 		textField_4.setColumns(10);
 		textField_4.setText(""+t.Balans());
 		
+		ArrayList<Uplata> ul = new ArrayList<Uplata>();
+		ArrayList<Isplata> il = new ArrayList<Isplata>();
+		
 		JLabel lblStanjeNaRacunu = new JLabel("Stanje na racunu:");
 		lblStanjeNaRacunu.setBounds(93, 187, 131, 14);
 		contentPane.add(lblStanjeNaRacunu);
@@ -142,10 +146,12 @@ public class GUI extends JFrame {
 				if (RadioUplata.isSelected())
 				{
 					try {
-						Transakcija t = new Transakcija();
 						Uplata u = new Uplata(textFieldDan.getText(),textFieldMesec.getText(),textFieldGodina.getText(),Integer.parseInt(textFieldSuma.getText()));
+						
 						t.Ispis(u);
 						t.Log(u);
+						ul.add(u);
+
 						label.setForeground(Color.black);
 						label.setText("Uplata je uspesna");
 						
@@ -153,7 +159,6 @@ public class GUI extends JFrame {
 					} catch (Exception e) {
 						label.setForeground(Color.red);
 						label.setText("Uplata nije uspesna");
-						
 						textFieldDan.setText("");
 						textFieldMesec.setText("");
 						textFieldGodina.setText("");
@@ -166,10 +171,12 @@ public class GUI extends JFrame {
 					try {
 						if(Integer.parseInt(textFieldSuma.getText())<=t.Balans())
 						{
-						Transakcija t = new Transakcija();
 						Isplata i = new Isplata(textFieldDan.getText(),textFieldMesec.getText(),textFieldGodina.getText(),Integer.parseInt(textFieldSuma.getText()));
+						
 						t.Ispis(i);
 						t.Log(i);
+						il.add(i);
+						
 						label.setForeground(Color.black);
 						label.setText("Isplata je uspesna");
 						}
@@ -178,10 +185,8 @@ public class GUI extends JFrame {
 							throw new Exception("");
 						} 
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
 						label.setForeground(Color.red);
 						label.setText("Isplata nije uspesna");
-						
 						textFieldDan.setText("");
 						textFieldMesec.setText("");
 						textFieldGodina.setText("");
@@ -199,27 +204,10 @@ public class GUI extends JFrame {
 		btnIzvrsiTansakciju.setBounds(163, 226, 187, 23);
 		contentPane.add(btnIzvrsiTansakciju);
 		
-		JButton btnNewButton = new JButton("Prikazi transakcije");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				
-				ArrayList<Uplata> ul = new ArrayList<Uplata>();
-				
-				Scanner sc = new Scanner("Uplate.txt"); 
-				while (sc.hasNextLine()) 
-				{
-					
-					System.out.println(sc.nextLine());
-				}
-				
-			
-			}
-		});
-		btnNewButton.setBounds(163, 285, 187, 23);
-		contentPane.add(btnNewButton);
+	
 		
 		JPanel panel_1 = new JPanel();
-		panel_1.setBorder(new TitledBorder(null, "JPanel title", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel_1.setBorder(new TitledBorder(null, "Uplate", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panel_1.setBounds(11, 315, 241, 225);
 		contentPane.add(panel_1);
 		panel_1.setLayout(null);
@@ -231,8 +219,10 @@ public class GUI extends JFrame {
 		JTextPane textPane = new JTextPane();
 		scrollPane.setViewportView(textPane);
 		
+		
+		
 		JPanel panel_2 = new JPanel();
-		panel_2.setBorder(new TitledBorder(null, "JPanel title", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel_2.setBorder(new TitledBorder(null, "Isplate", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panel_2.setBounds(263, 319, 251, 225);
 		contentPane.add(panel_2);
 		panel_2.setLayout(null);
@@ -244,6 +234,32 @@ public class GUI extends JFrame {
 		JTextPane textPane_1 = new JTextPane();
 		scrollPane_1.setViewportView(textPane_1);
 		
+		JButton btnNewButton = new JButton("Prikazi transakcije");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				
+			
+				String uList="";
+				for(Uplata up: ul) {
+					if (t.CheckMonth(up.getDate()))
+				    {uList=uList+"▲ ";}
+				    uList=uList+up.getSuma()+" "+up.getDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy."))+"\n";
+				}
+				textPane.setText(uList);
+				
+				
+				String iList="";
+				for(Isplata ip: il) {
+					if (t.CheckMonth(ip.getDate()))
+				    {iList=iList+"▲ ";}
+				    iList=iList+ip.getSuma()+" "+ip.getDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy."))+"\n";
+				}
+				textPane_1.setText(iList);
+			}
+		});
+		btnNewButton.setBounds(163, 285, 187, 23);
+		contentPane.add(btnNewButton);
 		
 	}
 }
