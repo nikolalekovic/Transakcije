@@ -1,6 +1,10 @@
 import java.awt.Color;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import beans.Isplata;
 import beans.Transakcija;
@@ -124,10 +128,6 @@ public class GUI extends JFrame {
 		textField_4.setColumns(10);
 		textField_4.setText(""+t.Balans());
 		
-		ArrayList<Uplata> ul = new ArrayList<Uplata>();
-		ArrayList<Isplata> il = new ArrayList<Isplata>();
-		
-		
 		JLabel lblStanjeNaRacunu = new JLabel("Stanje na racunu:");
 		lblStanjeNaRacunu.setBounds(93, 187, 131, 14);
 		contentPane.add(lblStanjeNaRacunu);
@@ -148,7 +148,7 @@ public class GUI extends JFrame {
 						t.Log(u);
 						label.setForeground(Color.black);
 						label.setText("Uplata je uspesna");
-						ul.add(u);
+						
 						
 					} catch (Exception e) {
 						label.setForeground(Color.red);
@@ -202,11 +202,17 @@ public class GUI extends JFrame {
 		JButton btnNewButton = new JButton("Prikazi transakcije");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				for (int i=0;i<ul.size();i++)
+				
+				ArrayList<Uplata> ul = new ArrayList<Uplata>();
+				
+				Scanner sc = new Scanner("Uplate.txt"); 
+				while (sc.hasNextLine()) 
 				{
 					
-					System.out.println(ul.get(i).getSuma()+" "+ul.get(i).getDate());
+					System.out.println(sc.nextLine());
 				}
+				
+			
 			}
 		});
 		btnNewButton.setBounds(163, 285, 187, 23);

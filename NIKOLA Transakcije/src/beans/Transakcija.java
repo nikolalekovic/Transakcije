@@ -85,11 +85,15 @@ public class Transakcija {
 	
 	public void Log(Uplata u) throws IOException
 	{
-		FileWriter fwU=new FileWriter("Uplate.txt",true);
+		/*FileWriter fwU=new FileWriter("Uplate.txt",true);
 		
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy.");
 		String formattedString = u.getDate().format(formatter);
 		fwU.write(u.getSuma()+" "+formattedString+"\n");
+	    fwU.close();*/
+		
+		FileWriter fwU=new FileWriter("Uplate.txt",true);
+		fwU.write(u.toString()+"\n");
 	    fwU.close();
 	}
 	
