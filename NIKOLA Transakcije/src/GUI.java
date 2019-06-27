@@ -7,6 +7,7 @@ import beans.Isplata;
 import beans.Transakcija;
 import beans.Uplata;
 import java.awt.EventQueue;
+import java.awt.GridLayout;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -21,6 +22,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextPane;
 import javax.swing.JScrollPane;
+import javax.swing.JCheckBox;
 
 public class GUI extends JFrame {
 
@@ -46,6 +48,7 @@ public class GUI extends JFrame {
 				try {
 					GUI frame = new GUI();
 					frame.setVisible(true);
+					frame.setResizable(false);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -63,15 +66,15 @@ public class GUI extends JFrame {
 		
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 540, 582);
+		setBounds(100, 100, 528, 582);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBorder(new TitledBorder(null, "Uplata/Isplata", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panel.setBounds(17, 9, 483, 164);
+		panel.setBorder(new TitledBorder(null, "Uplata/Isplata", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
@@ -123,8 +126,8 @@ public class GUI extends JFrame {
 		panel.add(lblNewLabel_3);
 		
 		textField_4 = new JTextField();
-		textField_4.setEditable(false);
 		textField_4.setBounds(202, 184, 187, 20);
+		textField_4.setEditable(false);
 		contentPane.add(textField_4);
 		textField_4.setColumns(10);
 		textField_4.setText(""+t.Balans());
@@ -136,11 +139,12 @@ public class GUI extends JFrame {
 		lblStanjeNaRacunu.setBounds(93, 187, 131, 14);
 		contentPane.add(lblStanjeNaRacunu);
 		JLabel label = new JLabel("New label");
-		label.setText("");
 		label.setBounds(163, 260, 187, 14);
+		label.setText("");
 		contentPane.add(label);
 		label.setHorizontalAlignment(JLabel.CENTER);
 		JButton btnIzvrsiTansakciju = new JButton("Izvrsi tansakciju");
+		btnIzvrsiTansakciju.setBounds(163, 226, 187, 23);
 		btnIzvrsiTansakciju.addActionListener (new ActionListener() {
 			public void actionPerformed(ActionEvent arg0){
 				if (RadioUplata.isSelected())
@@ -201,65 +205,66 @@ public class GUI extends JFrame {
 				}
 			}
 		});
-		btnIzvrsiTansakciju.setBounds(163, 226, 187, 23);
 		contentPane.add(btnIzvrsiTansakciju);
-		
-	
-		
-		JPanel panel_1 = new JPanel();
-		panel_1.setBorder(new TitledBorder(null, "Uplate", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel_1.setBounds(11, 315, 241, 225);
-		contentPane.add(panel_1);
-		panel_1.setLayout(null);
-		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(6, 25, 225, 193);
-		panel_1.add(scrollPane);
-		
-		JTextPane textPane = new JTextPane();
-		scrollPane.setViewportView(textPane);
 		
 		
 		
 		JPanel panel_2 = new JPanel();
-		panel_2.setBorder(new TitledBorder(null, "Isplate", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel_2.setBounds(263, 319, 251, 225);
+		panel_2.setBorder(new TitledBorder(null, "Uplate", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel_2.setBounds(11, 330, 244, 210);
 		contentPane.add(panel_2);
 		panel_2.setLayout(null);
 		
-		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(10, 26, 231, 187);
-		panel_2.add(scrollPane_1);
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(6, 16, 232, 187);
+		panel_2.add(scrollPane);
 		
-		JTextPane textPane_1 = new JTextPane();
-		scrollPane_1.setViewportView(textPane_1);
+		JPanel panel_1 = new JPanel(new GridLayout(0,1,2,2));
+		scrollPane.setViewportView(panel_1);
+		
+
+		
+		JPanel panel_4 = new JPanel();
+		panel_4.setBorder(new TitledBorder(null, "Isplate", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel_4.setBounds(258, 330, 242, 210);
+		contentPane.add(panel_4);
+		panel_4.setLayout(null);
+		
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(6, 16, 226, 183);
+		panel_4.add(scrollPane_1);
+		
+		
+		JPanel panel_3 = new JPanel(new GridLayout(0,1,2,2));
+		scrollPane_1.setViewportView(panel_3);
+		
 		
 		JButton btnNewButton = new JButton("Prikazi transakcije");
+		btnNewButton.setBounds(163, 285, 187, 23);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
+				panel_1.removeAll(); 
+				panel_3.removeAll(); 
 				
-			
-				String uList="";
 				for(Uplata up: ul) {
-					if (t.CheckMonth(up.getDate()))
-				    {uList=uList+"▲ ";}
-				    uList=uList+up.getSuma()+" "+up.getDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy."))+"\n";
+					
+					panel_1.add(new JCheckBox(""+up.getSuma()+" "+up.getDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy.")),t.CheckMonth(up.getDate()))).setEnabled(false);
+					panel_1.revalidate();
+					panel_1.repaint();
 				}
-				textPane.setText(uList);
 				
-				
-				String iList="";
 				for(Isplata ip: il) {
-					if (t.CheckMonth(ip.getDate()))
-				    {iList=iList+"▲ ";}
-				    iList=iList+ip.getSuma()+" "+ip.getDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy."))+"\n";
+					
+					panel_3.add(new JCheckBox(""+ip.getSuma()+" "+ip.getDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy.")),t.CheckMonth(ip.getDate()))).setEnabled(false);					panel_3.revalidate();
+					panel_3.repaint();
 				}
-				textPane_1.setText(iList);
+			
+				
 			}
 		});
-		btnNewButton.setBounds(163, 285, 187, 23);
 		contentPane.add(btnNewButton);
+		
 		
 	}
 }
