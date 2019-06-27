@@ -2,13 +2,11 @@ import java.awt.Color;
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-
 import beans.Isplata;
 import beans.Transakcija;
 import beans.Uplata;
 import java.awt.EventQueue;
 import java.awt.GridLayout;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -20,7 +18,6 @@ import javax.swing.JButton;
 import javax.swing.ButtonGroup;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.JTextPane;
 import javax.swing.JScrollPane;
 import javax.swing.JCheckBox;
 
